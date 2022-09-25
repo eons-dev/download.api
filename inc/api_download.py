@@ -10,9 +10,9 @@ class download(external):
 
         this.supportedMethods = ['GET']
 
-        # The secondary_field is used if the first request *this makes returns a json describing the file to be downloaded. In such a case, a second request is made to the url provided by the field specified in the json of the response to the first request.
-        # If the secondary_field is None, the response to the first request is returned.
-        this.optionalKWArgs['secondary_field'] = None
+        # The redirect_url_field is used if the first request *this makes returns a json describing the file to be downloaded. In such a case, a second request is made to the url provided by the field specified in the json of the response to the first request.
+        # If the redirect_url_field is None, the response to the first request is returned.
+        this.optionalKWArgs['redirect_url_field'] = None
 
         this.helpText = '''\
 Download any file by offloading the retrieval work to another API.
@@ -26,14 +26,14 @@ Per the parent 'external':
 
         #TODO: does stream=True work? Can we pass a stream through requests to flask?
 
-        if (this.secondary_field is None):
+        if (this.redirect_url_field is None):
             this.externalResponse = requests.request(**this.externalRequest, stream=True)
             return
 
         firstResponse = requests.request(**this.externalRequest)
         frJson = json.loads(firstResponse.content.decode('ascii'))
 
-        this.externalResponse = requests.get(frJson[this.secondary_field], stream=True)
+        this.externalResponse = requests.get(frJson[this.redirect_url_field], stream=True)
 
     # All we're doing here is setting a 2-stage download process.
     # We can use the external Call() method.
