@@ -3,6 +3,7 @@ import logging
 import requests
 import json
 import apie
+from api_external import external
 
 class download(external):
     def __init__(this, name="download"):
@@ -14,13 +15,13 @@ class download(external):
         # If the redirect_url_field is None, the response to the first request is returned.
         this.optionalKWArgs['redirect_url_field'] = None
 
-        this.helpText = '''\
+        this.helpText = f'''\
 Download any file by offloading the retrieval work to another API.
 This does not (currently) have access to the local filesystem.
 
 Per the parent 'external':
+{this.helpText}
 '''
-        this.helpText += super().helpText
 
     def MakeRequest(this):
 
