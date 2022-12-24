@@ -11,7 +11,7 @@ class download(external):
 
         # We want to send binary data.
         this.mime = 'application/force-download'
-        this.decode = None
+        this.optionalKWArgs['decode'] = None
         
         this.supportedMethods = ['GET']
 
@@ -19,12 +19,14 @@ class download(external):
         # If the redirect_url_field is None, the response to the first request is returned.
         this.optionalKWArgs['redirect_url_field'] = None
 
-        this.helpText = f'''\
+    # Required Endpoint method. See that class for details.
+    def GetHelpText(this):
+        return f'''\
 Download any file by offloading the retrieval work to another API.
 This does not (currently) have access to the local filesystem.
 
 Per the parent 'external':
-{this.helpText}
+{super().GetHelpText()}
 '''
 
     def MakeRequest(this):
